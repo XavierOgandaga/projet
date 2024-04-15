@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    {% if theme == 'light' %}
+        <link rel="stylesheet" href="{{ asset('css/theme-light.css') }}">
+    {% else %}
+        <link rel="stylesheet" href="{{ asset('css/theme-dark.css') }}">
+    {% endif %}
+</head>
+<body>
+
+    <nav class="h-min py-4 p-2 flex justify-end items-center">
+        <ul>
+            <li><a href="{{ path('app_admin', {'idA': admin_id}) }}" class="button">Accueil</a></li>
+            <li><a href="{{ path('index_course', {'idA': admin_id}) }}" class="button">Cours</a></li>
+            <li><a href="{{ path('user_index', {'idA': admin_id}) }}" class="button">Utilisateurs</a></li>
+        </ul>
+    </nav>
+   
+
+      <div class="flex justify-start items-center my-4">
+            <form action="{{ path('app_admin_change_theme', {'idA': admin_id}) }}" method="post" class="m-4">
+                <input type="hidden" name="theme" value="{{ theme == 'light' ? 'dark' : 'light' }}">
+                <button type="submit" class="button"> <i class="fa fa-adjust"></i> </button>
+            </form>
+        <a href="{{ path('qcm_show', {'idA': admin_id, 'idC': qcm.course.id, 'id': qcm.id}) }}" class="button hover:underline"><i class="fas fa-arrow-rotate-left"></i></a>
+     </div>
+
+</div>
+
+<div class="container mx-auto mt-8">
+  
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class=" rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-2">QCM Title:</h2>
+            <p>{{ question.getQcm().getTitle() }}</p>
+        </div>
+
+        <div class=" rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-2">Course:</h2>
+            <p>{{ question.getLesson().getCourse().getName() }}</p>
+        </div>
+
+        <div class="rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-2">Lesson:</h2>
+            <p>{{ question.getLesson().getName() }}</p>
+        </div>
+
+        <div class=" rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-2">Question:</h2>
+            <p>{{ question.getContent() }}</p>
+        </div>
+
+        <div class=" rounded-lg shadow-md p-4">
+    <h2 class="text-lg font-semibold mb-2">Answers:</h2>
+    <div class="grid grid-cols-2 gap-4">
+        {% for answer in question.getAnswers() %}
+            <div>{{ answer }}</div>
+        {% endfor %}
+    </div>
+</div>
+
+
+        <div class=" rounded-lg shadow-md p-4">
+            <h2 class="text-lg font-semibold mb-2">Correct Answer Index:</h2>
+            <p>{{ question.getCorrectAnswerIndex() }}</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
